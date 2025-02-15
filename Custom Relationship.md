@@ -10,6 +10,7 @@ Misalnya, tabel `users` memiliki field `kode_user` yang unik, dan tabel `posts` 
 ## Migration Setup
 
 ### Tabel `users`
+
 ```php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -36,6 +37,7 @@ class CreateUsersTable extends Migration
 ```
 
 ### Tabel `posts`
+
 ```php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -63,25 +65,28 @@ class CreatePostsTable extends Migration
         Schema::dropIfExists('posts');
     }
 }
+```
 
 ---
 
 ## Model Setup
 
 ### User Model (`User.php`)
+
 ```php
 public function posts()
 {
- // Parameter kedua: foreign key di tabel posts, parameter ketiga: local key di tabel users
+    // Parameter kedua: foreign key di tabel posts, parameter ketiga: local key di tabel users
     return $this->hasMany(Post::class, 'kode_user', 'kode_user');
 }
 ```
 
 ### Post Model (`Post.php`)
+
 ```php
 public function user()
 {
- // Parameter kedua: foreign key di tabel posts, parameter ketiga: owner key di tabel users
+    // Parameter kedua: foreign key di tabel posts, parameter ketiga: owner key di tabel users
     return $this->belongsTo(User::class, 'kode_user', 'kode_user');
 }
 ```
@@ -89,6 +94,7 @@ public function user()
 ---
 
 ## Notes
+
 - **Field `id` tetap digunakan** untuk kebutuhan auto increment dan standarisasi, meskipun relasi tidak mengacu padanya.
 - **`kode_user`** dipastikan unik agar relasi tetap valid.
 - Jika ingin menggunakan `foreignId()` seperti default Laravel, field yang dirujuk harus primary key.
